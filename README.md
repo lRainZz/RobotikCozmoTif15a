@@ -9,4 +9,4 @@
 > Bring similar LEGOS together (at cubes)
 
 
-###### By: A. Höhl; T. Senn; A. Müllhaupt; F. Dubberke
+###### By: A. Höhl; T. Senn; A. Mülhaupt; F. Dubberke
