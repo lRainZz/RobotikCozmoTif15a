@@ -18,7 +18,12 @@ def lift_to_lego_position(coz):
 	time.sleep(0.33)
 	coz.move_lift(0)
 
-def reset_lift_position(coz):
-	coz.move_lift(5)
+def reset_lift_position(coz, bottom=False):
+	speed = 5
+
+	if bottom:
+		speed = -5
+	
+	coz.move_lift(speed)
 	time.sleep(0.5)
 	coz.move_lift(0)
