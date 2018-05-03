@@ -20,6 +20,7 @@ class Camera():
 
         #settings
         self.__robot.camera.image_stream_enabled = True
+        self.__robot.camera.color_image_enabled = True
         
         #events
         self.__robot.add_event_handler(cozmo.objects.EvtObjectTapped, self.on_cube_tap)
@@ -29,7 +30,7 @@ class Camera():
         print("Waiting for a picture...")
         
         # wait for a new camera image to ensure it is captured properly
-        self.__robot.world.wait_for(cozmo.world.EvtNewCameraImage) # <<< script crawls HERE
+        self.__robot.world.wait_for(cozmo.world.EvtNewCameraImage)
         print("Found a picture, capturing the picture.")
 
         # store the image
@@ -37,7 +38,7 @@ class Camera():
         print("Captured picture. Saving picture.")
 
         if self.__latest_image is not None:
-            self.__latest_image.save(time.strftime("%d%m%Y%H%M%S")+".jpeg")
+            self.__latest_image.save(time.strftime("%d%m%Y%H%M%S")+".jpg")
             cozmo.logger.info("Success")
         else:
             cozmo.logger.info("Error")
@@ -52,8 +53,8 @@ class Camera():
         return not (self.__cube01 == None)
     
     def on_cube_tap(self, evt, obj, **kwargs):
-        #if 2 == self.__cube01.object_id:
-        self.do_photo()
+        if obj.object_id == self.__cube01.object_id:
+            self.do_photo()
   
     async def run(self):
         if not self.cube_connected():
