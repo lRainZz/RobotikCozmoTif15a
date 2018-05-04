@@ -1,4 +1,5 @@
 #Install etc
+#reset the tensorflow git
 #LabelImages with labelImg
 #convert xmls in csv with xml_to_csv.py
 #convert csv to fsRekord File with generate_tfrecord.py
@@ -7,11 +8,12 @@
 #create yml cloud file
 #upload (record files, model* files from the model, pipconfig) to storage
 
+https://pythonprogramming.net/training-custom-objects-tensorflow-object-detection-api-tutorial/?completed=/creating-tfrecord-files-tensorflow-object-detection-api-tutorial/
 
 
 #Train command (from tensorflow/models/research):
 gcloud ml-engine jobs submit training `whoami`_object_detection_`date +%s` \
-    --runtime-version 1.2 \
+    --runtime-version 1.6 \
     --job-dir=gs://cozmo/train \
     --packages dist/object_detection-0.1.tar.gz,slim/dist/slim-0.1.tar.gz \
     --module-name object_detection.train \
@@ -20,10 +22,11 @@ gcloud ml-engine jobs submit training `whoami`_object_detection_`date +%s` \
     -- \
     --train_dir=gs://cozmo/train \
     --pipeline_config_path=gs://cozmo/data/faster_rcnn_resnet101_cozmo.config
+
 	
 #Eval Command:
 gcloud ml-engine jobs submit training `whoami`_object_detection_eval_`date +%s` \
-    --runtime-version 1.2 \
+    --runtime-version 1.6 \
     --job-dir=gs://cozmo/train \
     --packages dist/object_detection-0.1.tar.gz,slim/dist/slim-0.1.tar.gz \
     --module-name object_detection.eval \
@@ -35,4 +38,4 @@ gcloud ml-engine jobs submit training `whoami`_object_detection_eval_`date +%s` 
     --pipeline_config_path=gs://cozmo/data/faster_rcnn_resnet101_cozmo.config
 	
 #Monitor Training:
-	tensorboard --logdir=gs://cozmo
+	tensorboard --logdir=gs://cozmo/data port=80
