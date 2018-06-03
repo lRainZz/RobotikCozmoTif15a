@@ -65,8 +65,11 @@ def getObject(image):
             (boxes, scores, classes, num_detections) = sess.run(
                 [boxes, scores, classes, num_detections],
                 feed_dict={image_tensor: image_np_expanded})
+
             ret = [scores.item(0), boxes.item(0), boxes.item(1),
                    boxes.item(2), boxes.item(3)]
+            # print(ret)
+            return ret
 
             # Visualization of the results of a detection.
             # vis_util.visualize_boxes_and_labels_on_image_array(
