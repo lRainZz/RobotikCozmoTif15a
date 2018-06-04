@@ -9,6 +9,12 @@ args = vars(ap.parse_args())
 ## Y1 X1 = start, X2 Y2 = end 
 ## 0=red 1=green 2=blue -1=error
 def getColorInRange(image, X1, Y1, X2, Y2):
+
+    #save raw image to file
+    raw_rgb = np.array(image)
+    cv2.imwrite("color_detect_pic.jpg", edge)
+    image = cv2.imread('color_detect_pic.jpg')
+
     red = 0
     green = 0
     blue = 0
