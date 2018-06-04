@@ -1,7 +1,7 @@
-import cozmo;
-import time;
+import cozmo
+import time
 
-from interactWithLego import *;
+from interactWithLego import *
 
 def run_cozmo(coz: cozmo.robot.Robot):
 

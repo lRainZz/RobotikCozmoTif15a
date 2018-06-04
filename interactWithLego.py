@@ -1,11 +1,8 @@
-#!/usr/bin/env python3
+import cozmo
+import time
 
-import cozmo;
-import time;
-
-from cozmo.util import distance_mm;
-from cozmo.util import speed_mmps;
-
+from cozmo.util import distance_mm
+from cozmo.util import speed_mmps
 
 def rotate_to_cube(cozmo, objectData):
 	left  = objectData[1] # x value
@@ -19,7 +16,6 @@ def rotate_to_cube(cozmo, objectData):
 	
 	# turn cozmo to cube
 	cozmo.turn_in_place(cozmo.util.Angle(degrees=turn_deg)) 
-
 
 def drive_to_lego_cube(cozmo):
 	while True:

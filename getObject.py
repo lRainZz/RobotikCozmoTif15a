@@ -68,7 +68,7 @@ def getObject(image):
 
             ret = [scores.item(0), boxes.item(0), boxes.item(1),
                    boxes.item(2), boxes.item(3)]
-            # print(ret)
+            print(ret)
             return ret
 
             # Visualization of the results of a detection.

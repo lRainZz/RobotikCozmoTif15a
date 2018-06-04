@@ -12,7 +12,7 @@ def getColorInRange(image, X1, Y1, X2, Y2):
 
     #save raw image to file
     raw_rgb = np.array(image)
-    cv2.imwrite("color_detect_pic.jpg", edge)
+    cv2.imwrite('color_detect_pic.jpg', raw_rgb)
     image = cv2.imread('color_detect_pic.jpg')
 
     red = 0
@@ -42,8 +42,6 @@ def getColorInRange(image, X1, Y1, X2, Y2):
     #print("getColorInRange:-1")
     return -1
 
-
-
 ## 0=red 1=green 2=blue -1=error
 def getColor(image, Y, X):
     #red, green. blue
@@ -57,7 +55,7 @@ def getColor(image, Y, X):
     #blue = [([100, 0, 0], [255, 100, 130])]
     
     # load the image
-    image = cv2.imread(image)
+    # image = cv2.imread(image)
     # Load the pixel    
     pixel = image[Y,X]
 
@@ -82,8 +80,3 @@ def inRange(toTest, lower, upper):
             if lower[2] <= toTest[2] <= upper[2]:
                 return True
     return False
-
-
-
-
-getColorInRange(args["image"], 10, 10, 20, 20)

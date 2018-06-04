@@ -1,9 +1,9 @@
-import cozmo;
+import cozmo
 
-from initLightCubes import *;
-from getObject import *;
-from interactWithLego import *;
-from getColor import *;
+from initLightCubes import *
+from getObject import *
+from interactWithLego import *
+from getColor import *
 
 # use to detect color of cube infront of cozmo
 def lego_cube_color_space():
@@ -15,10 +15,7 @@ def lego_cube_color_space():
     right_x = 240
     right_y = 180
 
-    cutout_corners[0] = left_x
-    cutout_corners[1] = left_y
-    cutout_corners[2] = right_x
-    cutout_corners[3] = right_y
+    cutout_corners = [left_x, left_y, right_x, right_y]
 
     return cutout_corners
 
@@ -42,11 +39,7 @@ def lego_cube_color_space_detection(objectData):
     inner_left_y  = left_y  + quarter_dist_y
     inner_right_y = right_y + quarter_dist_y
 
-    # [left_x, left_y, right_x, right_y]
-    cutout_corners[0] = inner_left_x
-    cutout_corners[1] = inner_left_y
-    cutout_corners[2] = inner_right_x
-    cutout_corners[3] = inner_right_y
+    cutout_corners = [inner_left_x, inner_left_y, inner_right_x, inner_right_y]
 
     return cutout_corners
     
@@ -54,11 +47,11 @@ def lego_cube_color_space_detection(objectData):
 def sort_lego_cubes(cozRob: cozmo.robot.Robot):
 
     # start by searching and initializing the light cubes
-    allFound = init_light_cubes(cozmo)
+    allFound = init_light_cubes(cozRob)
 
     # save current postion of cozmo
     # lift arm for free camera persp.
-    startPos = cozmo.util.pose
+    startPos = cozRob.pose
     reset_lift_position(cozRob)
 
     # start searching for lego cubes and sort them
@@ -68,7 +61,7 @@ def sort_lego_cubes(cozRob: cozmo.robot.Robot):
     fround_green   = False
 
     while True:
-        curentImage = cozmo.robot.world.wait_for(cozmo.world.EvtNewCameraImage)
+        currentImage = cozRob.world.latest_image.raw_image
         objectData  = getObject(currentImage)
 
         # try to detect color so cozmo can decide if the cube is already sorted
@@ -101,7 +94,7 @@ def sort_lego_cubes(cozRob: cozmo.robot.Robot):
                 lock_lego_cube(cozmo, 1000)
                 
                 # static color detection, image is made while cune is in front of cozmo
-                get_color_image = cozmo.robot.world.wait_for(cozmo.world.EvtNewCameraImage)
+                get_color_image = cozRob.world.latest_image.raw_image
                 color_area = lego_cube_color_space()
                 color = getColorInRange(get_color_image, color_area[0], color_area[1], color_area[2], color_area[3])
                 
