@@ -73,7 +73,7 @@ def sort_lego_cubes(cozRob: cozmo.robot.Robot):
 
         # try to detect color so cozmo can decide if the cube is already sorted
         detected_color_area = lego_cube_color_space_detection(objectData)
-        prob_color          = getColor(currentImage, detected_color_area[0], detected_color_area[1], detected_color_area[2], detected_color_area[3])
+        prob_color          = getColorInRange(currentImage, detected_color_area[0], detected_color_area[1], detected_color_area[2], detected_color_area[3])
 
         # if the cube with the given color is already sorted
         # cozmo will turn further to search fo a new one
@@ -103,7 +103,7 @@ def sort_lego_cubes(cozRob: cozmo.robot.Robot):
                 # static color detection, image is made while cune is in front of cozmo
                 get_color_image = cozmo.robot.world.wait_for(cozmo.world.EvtNewCameraImage)
                 color_area = lego_cube_color_space()
-                color = getColor(get_color_image, color_area[0], color_area[1], color_area[2], color_area[3])
+                color = getColorInRange(get_color_image, color_area[0], color_area[1], color_area[2], color_area[3])
                 
                 # decide which light cube is the correct one
                 # save which cube color is sorted
