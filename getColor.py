@@ -6,6 +6,38 @@ ap = argparse.ArgumentParser()
 ap.add_argument("-i", "--image", help = "path to the image")
 args = vars(ap.parse_args())
 
+## Y1 X1 = start, X2 Y2 = end 
+## 0=red 1=green 2=blue -1=error
+def getColorInRange(image, X1, Y1, X2, Y2):
+    red = 0
+    green = 0
+    blue = 0
+    if Y1 <= Y2 and X1 <= X2:
+        for i in range(X1, X2):
+            for j in range(Y1, Y2):
+                h = getColor(image, i, j)
+                if h == 0:
+                    red += 1
+                if h == 1:
+                    green += 1
+                if h == 2:
+                    blue += 1
+    
+    if red > green and red > blue:
+        #print("getColorInRange:0")
+        return 0
+    if green > red and green > blue:
+        #print("getColorInRange:1")
+        return 1
+    if blue > red and blue > green:
+        #print("getColorInRange:2")
+        return 2
+
+    #print("getColorInRange:-1")
+    return -1
+
+
+
 ## 0=red 1=green 2=blue -1=error
 def getColor(image, Y, X):
     #red, green. blue
@@ -30,11 +62,11 @@ def getColor(image, Y, X):
         upper = np.array(upper, dtype = "uint8")
 
         if inRange(pixel, lower, upper):
-            print (i)
+            #print (i)
             return i
         i += 1
 
-    print ("-1")
+    #print ("-1")
     return -1
 
 ## if color is in Range = true
@@ -48,4 +80,4 @@ def inRange(toTest, lower, upper):
 
 
 
-getColor(args["image"], 10, 10)
+getColorInRange(args["image"], 10, 10, 20, 20)
