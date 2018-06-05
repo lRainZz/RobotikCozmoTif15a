@@ -66,19 +66,25 @@ def getObject(image):
                 [boxes, scores, classes, num_detections],
                 feed_dict={image_tensor: image_np_expanded})
 
-            ret = [scores.item(0), boxes.item(0), boxes.item(1),
-                   boxes.item(2), boxes.item(3)]
+            # item(1) = Y1
+            # itme(0) = X1
+            # item(3) = Y2
+            # item(2) = X2
+            ret = [scores.item(0), boxes.item(1), boxes.item(0),
+                   boxes.item(3), boxes.item(2)]
             print(ret)
             return ret
 
             # Visualization of the results of a detection.
-            # vis_util.visualize_boxes_and_labels_on_image_array(
-            #     image_np,
-            #     np.squeeze(boxes),
-            #     np.squeeze(classes).astype(np.int32),
-            #     np.squeeze(scores),
-            #     category_index,
-            #     use_normalized_coordinates=True,
-            #     line_thickness=8)
+            vis_util.visualize_boxes_and_labels_on_image_array(
+                image_np,
+                np.squeeze(boxes),
+                np.squeeze(classes).astype(np.int32),
+                np.squeeze(scores),
+                category_index,
+                use_normalized_coordinates=True,
+                line_thickness=8)
 
-            # cv2.imshow('object detection', cv2.resize(image_np, (800, 600)))
+            cv2.imshow('object detection', cv2.resize(image_np, (800, 600)))
+
+            cv2.waitKey(0)

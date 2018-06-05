@@ -15,6 +15,9 @@ def getColorInRange(image, X1, Y1, X2, Y2):
     cv2.imwrite('color_detect_pic.jpg', raw_rgb)
     image = cv2.imread('color_detect_pic.jpg')
 
+    print("LEFT: " + str(X1) + ", " + str(Y1))
+    print("RIGHT: " + str(X2) + ", " + str(Y2))
+
     red = 0
     green = 0
     blue = 0
@@ -43,7 +46,7 @@ def getColorInRange(image, X1, Y1, X2, Y2):
     return -1
 
 ## 0=red 1=green 2=blue -1=error
-def getColor(image, Y, X):
+def getColor(image, X, Y):
     #red, green. blue
     boundaries = [
 	    ([0, 0, 100], [100, 130, 255]),
@@ -56,7 +59,7 @@ def getColor(image, Y, X):
     
     # load the image
     # image = cv2.imread(image)
-    # Load the pixel    
+    # Load the pixel 
     pixel = image[Y,X]
 
     i = 0

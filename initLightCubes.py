@@ -7,16 +7,13 @@ from cozmo.objects import LightCube, LightCube1Id, LightCube2Id, LightCube3Id
 from cozmo.lights import red_light,green_light,blue_light
 
 
-def init_light_cubes(coz):
+def init_light_cubes(coz, cubes):
     print("Batteriestatus: "+str(coz.battery_voltage)+"V")
-    coz.say_text("Hmm, hier sieht es aber schlimm aus!", use_cozmo_voice=False, in_parallel=True)
+    coz.say_text("What a mess", use_cozmo_voice=False, in_parallel=True).wait_for_completed()
 
-    cube1=coz.world.get_light_cube(LightCube1Id)
-    cube1.set_lights(red_light)
-    cube2=coz.world.get_light_cube(LightCube2Id)
-    cube2.set_lights(green_light)
-    cube3=coz.world.get_light_cube(LightCube3Id)
-    cube3.set_lights(blue_light)
+    cubes[0].set_lights(red_light)
+    cubes[1].set_lights(green_light)
+    cubes[2].set_lights(blue_light)
 
     while True:
         lookaround = coz.start_behavior(cozmo.behavior.BehaviorTypes.LookAroundInPlace)
@@ -26,6 +23,6 @@ def init_light_cubes(coz):
         if len(cubes) > 2:
             break
         else:
-            coz.say_text("Ich konnte nicht alle Cubes finden. Mal sehen ob ich sie jetzt besser sehe", use_cozmo_voice=False, in_parallel=True).wait_for_completed()
+            coz.say_text("Couldn't find the light cubes. I'll try again.", use_cozmo_voice=False, in_parallel=True).wait_for_completed()
 
     return True
