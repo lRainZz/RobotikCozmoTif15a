@@ -37,19 +37,21 @@ def sort_lego_cubes(cozRob: cozmo.robot.Robot):
     # lift arm for free camera persp.
     reset_lift_position(cozRob)
 
+    cozRob.go_to_pose(start_pos).wait_for_completed()
+
+    cozRob.turn_in_place(cozmo.util.Angle(degrees=180)).wait_for_completed()
+
     # start searching for lego cubes and sort them
     foundLegoCubes = 0
     found_blue     = False
     found_red      = False
     found_green    = False
 
-    while True:
-        cozRob.go_to_pose(start_pos).wait_for_completed()
+    first_false = True
 
-        cozRob.turn_in_place(cozmo.util.Angle(degrees=180)).wait_for_completed()
-        
+    while True:        
         currentImage = cozRob.world.latest_image.raw_image
-        objectData  = getObject(currentImage)
+        objectData   = getObject(currentImage)
 
         if foundLegoCubes < 3:
             if objectData[0] >= 0.95:
@@ -73,7 +75,7 @@ def sort_lego_cubes(cozRob: cozmo.robot.Robot):
                 reset_head_position(cozRob, False, True)
                 
                 #drive cozmo to lego cube, 3 cm steps until he's about 5cm away
-                color = drive_to_lego_cube(cozRob, objectData)
+                color = int(drive_to_lego_cube(cozRob, objectData))
 
                 print("color: " + str(color))
 
@@ -83,10 +85,10 @@ def sort_lego_cubes(cozRob: cozmo.robot.Robot):
                     cube_pose = cube1.pose
                     found_red = True
                 elif color == 1: # green - drive to cube 2
-                    cube_pose    = cube2.pose
+                    cube_pose = cube2.pose
                     found_green = True
                 elif color == 2: # blue  - drive to cube 3
-                    cube_pose  = cube3.pose
+                    cube_pose = cube3.pose
                     found_blue = True
                 else:
                     # if color can not be determined, cozmo will return to his start point
@@ -94,8 +96,7 @@ def sort_lego_cubes(cozRob: cozmo.robot.Robot):
                     # reset_lift_position(cozRob)
                     # cozRob.go_to_pose(start_pos).wait_for_completed()
                     # continue
-                    cube_pose    = cube3.pose
-                    found_green = True
+                    cube_pose = cube3.pose
 
                 # lock the lego cube under cozmo, using an approach of 10 cm
                 # giving him 5 cm to set the cube straight
@@ -111,9 +112,17 @@ def sort_lego_cubes(cozRob: cozmo.robot.Robot):
                 reset_lift_position(cozRob)
                 cozRob.drive_straight(distance_mm(-40), speed_mmps(100)).wait_for_completed()
 
+                # return to start position
+                cozRob.go_to_pose(start_pos).wait_for_completed()
+                cozRob.turn_in_place(cozmo.util.Angle(degrees=180)).wait_for_completed()
+
                 continue
             else:
-                cozRob.turn_in_place(cozmo.util.Angle(degrees=35)).wait_for_completed()
+                if first_false:
+                    cozRob.turn_in_place(cozmo.util.Angle(degrees=-90)).wait_for_completed()
+                    first_false = False
+
+                cozRob.turn_in_place(cozmo.util.Angle(degrees=30)).wait_for_completed()
                 continue
         else:
             break
